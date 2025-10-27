@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     ADMIN_PASSWORD: str
 
     # Security
-    SECRET_KEY: str
+    SECRET_KEY: str = "hey"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 

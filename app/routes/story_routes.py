@@ -1,9 +1,12 @@
-from fastapi import APIRouter, Request, Depends, HTTPException, status, Query
+from fastapi import APIRouter, Request, Depends, HTTPException, status, Query, UploadFile, File
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from typing import Optional, List
 from datetime import timedelta
+import os
+import uuid
+from pathlib import Path
 
 from app.database import get_db
 from app.models import ContentType, Language
@@ -14,6 +17,11 @@ from app.config import settings
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
+
+# Upload directory
+UPLOAD_DIR = Path("static/uploads")
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
 
 # Public routes
 
@@ -87,6 +95,30 @@ def get_random_content(
         raise HTTPException(status_code=404, detail="No content found")
     return content
 
+
+@router.get("/api/contents/{content_id}/language/{target_language}", response_model=ContentResponse)
+def get_content_in_language(
+    content_id: int,
+    target_language: Language,
+    db: Session = Depends(get_db)
+):
+    """Get content in specified language"""
+    content = content_service.get_content_in_language(db, content_id, target_language)
+    if not content:
+        raise HTTPException(status_code=404, detail="Content not available in this language")
+    return content
+
+
+@router.get("/api/contents/{content_id}/check-language/{target_language}")
+def check_language_availability(
+    content_id: int,
+    target_language: Language,
+    db: Session = Depends(get_db)
+):
+    """Check if content is available in target language"""
+    is_available = content_service.check_language_availability(db, content_id, target_language)
+    return {"available": is_available}
+
 # Admin routes
 
 
@@ -105,6 +137,37 @@ def login(login_request: LoginRequest):
         data={"sub": login_request.username}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+@router.post("/api/admin/upload-image")
+async def upload_image(
+    file: UploadFile = File(...),
+    current_admin=Depends(verify_token)
+):
+    """Upload an image file (admin only)"""
+    # Check file extension
+    file_ext = Path(file.filename).suffix.lower()
+    if file_ext not in ALLOWED_EXTENSIONS:
+        raise HTTPException(
+            status_code=400,
+            detail=f"File type not allowed. Allowed types: {', '.join(ALLOWED_EXTENSIONS)}"
+        )
+    
+    # Generate unique filename
+    unique_filename = f"{uuid.uuid4()}{file_ext}"
+    file_path = UPLOAD_DIR / unique_filename
+    
+    # Save file
+    try:
+        with open(file_path, "wb") as buffer:
+            content = await file.read()
+            buffer.write(content)
+        
+        # Return URL path
+        image_url = f"/static/uploads/{unique_filename}"
+        return {"url": image_url, "filename": unique_filename}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to upload file: {str(e)}")
 
 
 @router.post("/api/admin/contents", response_model=ContentResponse)

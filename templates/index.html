@@ -9,35 +9,40 @@
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <!-- Header -->
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <!-- Header with Glass Effect -->
+    <nav class="navbar navbar-expand-lg fixed-top glass-navbar">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">
+                <div class="om-container">
+                    <span class="om-symbol">ॐ</span>
+                    <div class="om-ring ring-1"></div>
+                    <!-- <div class="om-ring ring-2"></div>
+                    <div class="om-ring ring-3"></div> -->
+                </div>
                 <strong>Bhakti Setu</strong>
             </a>
-            <button class="btn btn-link theme-toggle" id="themeToggle">
-                <i class="bi bi-sun-fill" id="themeIcon"></i>
-            </button>
-        </div>
-    </nav>
-
-    <!-- Search Bar -->
-    <div class="search-section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="input-group search-bar">
-                        <input type="text" class="form-control" id="searchInput" 
-                               placeholder="Search using your own language..." 
-                               aria-label="Search">
-                        <button class="btn btn-primary" type="button" id="searchBtn">
-                            <i class="bi bi-search"></i>
-                        </button>
-                    </div>
+            <!-- Search Bar in Navbar -->
+            <div class="navbar-search">
+                <div class="input-group search-bar">
+                    <input type="text" class="form-control" id="searchInput" 
+                           placeholder="Search..." 
+                           aria-label="Search">
+                    <button class="btn btn-primary" type="button" id="searchBtn">
+                        <i class="bi bi-search"></i>
+                    </button>
                 </div>
             </div>
+            <!-- Theme and Language Toggles -->
+            <div class="navbar-controls">
+                <button class="btn btn-link control-btn" id="languageToggle" title="Switch Language">
+                    <i class="bi bi-translate" id="languageIcon"></i>
+                </button>
+                <button class="btn btn-link control-btn" id="themeToggle" title="Toggle Theme">
+                    <i class="bi bi-sun-fill" id="themeIcon"></i>
+                </button>
+            </div>
         </div>
-    </div>
+    </nav>
 
     <!-- Content Cards -->
     <div class="container content-container">

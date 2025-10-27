@@ -9,13 +9,40 @@
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <div class="content-nav">
-        <button class="btn btn-outline-primary" onclick="window.location.href='/'">
-            <i class="bi bi-house-fill"></i>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg fixed-top glass-navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <div class="om-container">
+                    <span class="om-symbol">ॐ</span>
+                    <div class="om-ring ring-1"></div>
+                    <!-- <div class="om-ring ring-2"></div>
+                    <div class="om-ring ring-3"></div> -->
+                </div>
+                <strong>Bhakti Setu</strong>
+            </a>
+            <div class="navbar-controls">
+                <button class="btn btn-link control-btn" id="languageToggle" title="Switch Language">
+                    <i class="bi bi-translate" id="languageIcon"></i>
+                </button>
+                <button class="btn btn-link control-btn" id="themeToggle" title="Toggle Theme">
+                    <i class="bi bi-sun-fill" id="themeIcon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Left Navigation Arrow -->
+    <div class="content-nav-left">
+        <button class="btn btn-nav-circle" id="prevBtn" title="Previous">
+            <i class="bi bi-chevron-left"></i>
         </button>
-        <button class="btn btn-outline-primary" onclick="history.back()">
-            <i class="bi bi-arrow-left"></i>
+    </div>
+
+    <!-- Right Navigation Arrow -->
+    <div class="content-nav-right">
+        <button class="btn btn-nav-circle" id="nextBtn" title="Next">
+            <i class="bi bi-chevron-right"></i>
         </button>
     </div>
 
@@ -35,17 +62,24 @@
         </div>
     </div>
 
-    <!-- Next Button -->
-    <div class="content-nav" style="right: 20px;">
-        <button class="btn btn-outline-primary" id="nextBtn">
-            <i class="bi bi-arrow-right"></i>
-        </button>
-    </div>
-
     <!-- Play Button -->
     <button class="btn btn-primary btn-play-random" id="playBtn" title="Play Audio">
         <i class="bi bi-play-fill"></i>
     </button>
+
+    <!-- Toast Notification -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 11000;">
+        <div id="languageToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i class="bi bi-exclamation-circle text-warning me-2"></i>
+                <strong class="me-auto">Language Not Available</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                This content is not available in the selected language.
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/static/js/content.js"></script>

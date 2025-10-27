@@ -40,10 +40,18 @@ def search_contents(
     content_type: Optional[ContentType] = None,
     language: Optional[Language] = None
 ) -> List[Content]:
-    """Search contents by title or summary"""
+    """Search contents by title, summary, tags, or content with relevance scoring"""
+    search_term = f"%{query}%"
+    
+    # Simple search across all fields
     search_query = db.query(Content).filter(
-        (Content.title.ilike(f"%{query}%")) | 
-        (Content.summary.ilike(f"%{query}%"))
+        (Content.title.ilike(search_term)) | 
+        (Content.title_en.ilike(search_term)) |
+        (Content.summary.ilike(search_term)) |
+        (Content.summary_en.ilike(search_term)) |
+        (Content.tags.ilike(search_term)) |
+        (Content.content_html.ilike(search_term)) |
+        (Content.content_html_en.ilike(search_term))
     )
     
     if content_type:
@@ -52,7 +60,42 @@ def search_contents(
     if language:
         search_query = search_query.filter(Content.language == language)
     
-    return search_query.all()
+    # Get all matching results
+    results = search_query.all()
+    
+    # Sort by relevance in Python (more reliable)
+    def calculate_relevance(content):
+        score = 0
+        query_lower = query.lower()
+        
+        # Title matches (highest priority)
+        if content.title and query_lower in content.title.lower():
+            score += 10
+        if content.title_en and query_lower in content.title_en.lower():
+            score += 10
+            
+        # Tag matches (very high priority)
+        if content.tags and query_lower in content.tags.lower():
+            score += 8
+            
+        # Summary matches (medium priority)
+        if content.summary and query_lower in content.summary.lower():
+            score += 5
+        if content.summary_en and query_lower in content.summary_en.lower():
+            score += 5
+            
+        # Content matches (lowest priority)
+        if content.content_html and query_lower in content.content_html.lower():
+            score += 2
+        if content.content_html_en and query_lower in content.content_html_en.lower():
+            score += 2
+            
+        return score
+    
+    # Sort by relevance score (highest first), then by created_at
+    sorted_results = sorted(results, key=lambda x: (calculate_relevance(x), x.created_at), reverse=True)
+    
+    return sorted_results
 
 def create_content(db: Session, content_data: dict) -> Content:
     """Create a new content"""
@@ -87,3 +130,54 @@ def get_random_content(db: Session, content_type: Optional[ContentType] = None) 
     if content_type:
         query = query.filter(Content.content_type == content_type)
     return query.order_by(func.random()).first()
+
+def get_content_in_language(db: Session, content_id: int, target_language: Language) -> Optional[Content]:
+    """Get content in a different language by reference_id"""
+    # First get the current content
+    current_content = db.query(Content).filter(Content.id == content_id).first()
+    if not current_content:
+        return None
+    
+    # If already in target language, return the same content
+    if current_content.language == target_language:
+        return current_content
+    
+    # If no reference_id, check if the content has bilingual fields
+    if not current_content.reference_id:
+        # Check if this content has the alternative language fields populated
+        if target_language == Language.ENGLISH:
+            if current_content.title_en and current_content.content_html_en:
+                return current_content  # Will be handled by frontend to use _en fields
+        return None
+    
+    # Find content with same reference_id but different language
+    alternative_content = db.query(Content).filter(
+        Content.reference_id == current_content.reference_id,
+        Content.language == target_language
+    ).first()
+    
+    return alternative_content
+
+def check_language_availability(db: Session, content_id: int, target_language: Language) -> bool:
+    """Check if content is available in target language"""
+    current_content = db.query(Content).filter(Content.id == content_id).first()
+    if not current_content:
+        return False
+    
+    # If already in target language
+    if current_content.language == target_language:
+        return True
+    
+    # Check if bilingual fields exist
+    if not current_content.reference_id:
+        if target_language == Language.ENGLISH:
+            return bool(current_content.title_en and current_content.content_html_en)
+        return False
+    
+    # Check if alternative language content exists
+    alternative_content = db.query(Content).filter(
+        Content.reference_id == current_content.reference_id,
+        Content.language == target_language
+    ).first()
+    
+    return alternative_content is not None

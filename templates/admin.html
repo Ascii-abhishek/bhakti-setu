@@ -76,6 +76,12 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="titleEn" class="form-label">Title (English) - Optional</label>
+                            <input type="text" class="form-control" id="titleEn">
+                            <small class="form-text text-muted">For bilingual content</small>
+                        </div>
+
+                        <div class="mb-3">
                             <label for="header" class="form-label">Header (Optional)</label>
                             <input type="text" class="form-control" id="header">
                         </div>
@@ -86,14 +92,49 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="posterUrl" class="form-label">Poster URL (Optional)</label>
-                            <input type="url" class="form-control" id="posterUrl">
+                            <label for="summaryEn" class="form-label">Summary (English) - Optional</label>
+                            <textarea class="form-control" id="summaryEn" rows="3"></textarea>
+                            <small class="form-text text-muted">For bilingual content</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="posterImage" class="form-label">Poster Image (For Tile)</label>
+                            <input type="file" class="form-control" id="posterImage" accept="image/*">
+                            <small class="form-text text-muted">Upload image for content tile display</small>
+                            <input type="hidden" id="posterUrl">
+                            <div id="posterPreview" class="mt-2"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="bannerImage" class="form-label">Banner Image (For Content Page)</label>
+                            <input type="file" class="form-control" id="bannerImage" accept="image/*">
+                            <small class="form-text text-muted">Upload image for content page display</small>
+                            <input type="hidden" id="bannerUrl">
+                            <div id="bannerPreview" class="mt-2"></div>
                         </div>
 
                         <div class="mb-3">
                             <label for="contentHtml" class="form-label">Content (HTML)</label>
                             <textarea class="form-control" id="contentHtml" rows="10" required></textarea>
                             <small class="form-text text-muted">You can use HTML tags for formatting</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="contentHtmlEn" class="form-label">Content (HTML - English) - Optional</label>
+                            <textarea class="form-control" id="contentHtmlEn" rows="10"></textarea>
+                            <small class="form-text text-muted">For bilingual content</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="tags" class="form-label">Tags (Optional)</label>
+                            <input type="text" class="form-control" id="tags" placeholder="tag1, tag2, tag3">
+                            <small class="form-text text-muted">Comma-separated tags</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="referenceId" class="form-label">Reference ID (Optional)</label>
+                            <input type="text" class="form-control" id="referenceId">
+                            <small class="form-text text-muted">Used to link same content in different languages</small>
                         </div>
 
                         <div class="mb-3">
