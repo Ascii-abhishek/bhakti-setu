@@ -1,0 +1,227 @@
+:root {
+    --primary-color: #6200ea;
+    --secondary-color: #03dac6;
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --card-bg: #f5f5f5;
+    --border-color: #e0e0e0;
+}
+
+[data-theme="dark"] {
+    --primary-color: #bb86fc;
+    --secondary-color: #03dac6;
+    --bg-color: #121212;
+    --text-color: #ffffff;
+    --card-bg: #1e1e1e;
+    --border-color: #2e2e2e;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    color: white !important;
+    font-size: 1.5rem;
+}
+
+.theme-toggle {
+    color: white;
+    font-size: 1.5rem;
+    text-decoration: none;
+}
+
+.theme-toggle:hover {
+    color: #f0f0f0;
+}
+
+/* Search Section */
+.search-section {
+    margin-top: 100px;
+    margin-bottom: 40px;
+}
+
+.search-bar {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.search-bar input {
+    border: none;
+    padding: 15px 25px;
+    font-size: 1.1rem;
+}
+
+.search-bar input:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.search-bar button {
+    border: none;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+/* Content Container */
+.content-container {
+    margin-top: 20px;
+    margin-bottom: 100px;
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    background-color: var(--card-bg);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.card-text {
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+/* Skeleton Loading */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 8px;
+}
+
+[data-theme="dark"] .skeleton {
+    background: linear-gradient(90deg, #2e2e2e 25%, #3e3e3e 50%, #2e2e2e 75%);
+    background-size: 200% 100%;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.skeleton-img {
+    height: 200px;
+    width: 100%;
+}
+
+.skeleton-title {
+    height: 20px;
+    width: 70%;
+    margin-bottom: 10px;
+}
+
+.skeleton-text {
+    height: 15px;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+/* Play Random Button */
+.btn-play-random {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    z-index: 1000;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+}
+
+.btn-play-random:hover {
+    transform: scale(1.1);
+}
+
+/* Content View */
+.content-nav {
+    position: fixed;
+    top: 100px;
+    left: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.content-view {
+    margin-top: 80px;
+    margin-bottom: 50px;
+}
+
+.content-view h1 {
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.content-view .content-html {
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .search-section {
+        margin-top: 80px;
+    }
+    
+    .content-nav {
+        top: 80px;
+        left: 10px;
+    }
+    
+    .btn-play-random {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+    }
+}
