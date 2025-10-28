@@ -173,8 +173,7 @@ async def upload_image(
 @router.post("/api/admin/contents", response_model=ContentResponse)
 def create_content(
     content: ContentCreate,
-    db: Session = Depends(get_db),
-    current_admin=Depends(verify_token)
+    db: Session = Depends(get_db)
 ):
     """Create a new content (admin only)"""
     new_content = content_service.create_content(db, content.dict())

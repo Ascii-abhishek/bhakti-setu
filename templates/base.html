@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bhakti Setu - Connecting Devotees Worldwide{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    {% block extra_css %}{% endblock %}
+</head>
+<body {% block body_attrs %}{% endblock %}>
+    {% block navbar %}
+    <!-- Header with Glass Effect -->
+    <nav class="navbar navbar-expand-lg fixed-top glass-navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <div class="om-container">
+                    <span class="om-symbol">ॐ</span>
+                    <!-- <div class="om-ring ring-1"></div> -->
+                    <!-- Animated OM particles -->
+                    <div class="om-particles">
+                        <!-- <span class="om-particle" data-angle="0">ॐ</span>
+                        <span class="om-particle" data-angle="18">ॐ</span>
+                        <span class="om-particle" data-angle="36">ॐ</span>
+                        <span class="om-particle" data-angle="54">ॐ</span>
+                        <span class="om-particle" data-angle="72">ॐ</span>
+                        <span class="om-particle" data-angle="90">ॐ</span> -->
+                        <span class="om-particle" data-angle="108">ॐ</span>
+                        <span class="om-particle" data-angle="126">ॐ</span>
+                        <span class="om-particle" data-angle="144">ॐ</span>
+                        <span class="om-particle" data-angle="162">ॐ</span>
+                        <span class="om-particle" data-angle="180">ॐ</span>
+                        <span class="om-particle" data-angle="198">ॐ</span>
+                        <span class="om-particle" data-angle="216">ॐ</span>
+                        <span class="om-particle" data-angle="234">ॐ</span>
+                        <span class="om-particle" data-angle="252">ॐ</span>
+                        <span class="om-particle" data-angle="270">ॐ</span>
+                        <span class="om-particle" data-angle="288">ॐ</span>
+                        <span class="om-particle" data-angle="306">ॐ</span>
+                        <span class="om-particle" data-angle="324">ॐ</span>
+                        <span class="om-particle" data-angle="342">ॐ</span>
+                    </div>
+                </div>
+                <strong>{% block brand_text %}Bhakti Setu{% endblock %}</strong>
+            </a>
+            {% block navbar_center %}
+            <!-- Search Bar in Navbar -->
+            <div class="navbar-search">
+                <div class="input-group search-bar">
+                    <input type="text" class="form-control" id="searchInput" 
+                           placeholder="Search..." 
+                           aria-label="Search">
+                    <button class="btn btn-primary" type="button" id="searchBtn">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+            {% endblock %}
+            {% block navbar_right %}
+            <!-- Theme and Language Toggles -->
+            <div class="navbar-controls">
+                <button class="btn btn-link control-btn" id="languageToggle" title="Switch Language">
+                    <i class="bi bi-translate" id="languageIcon"></i>
+                </button>
+                <button class="btn btn-link control-btn" id="themeToggle" title="Toggle Theme">
+                    <i class="bi bi-sun-fill" id="themeIcon"></i>
+                </button>
+            </div>
+            {% endblock %}
+        </div>
+    </nav>
+    {% endblock %}
+
+    {% block content %}
+    <!-- Page-specific content goes here -->
+    {% endblock %}
+
+    {% block extra_elements %}
+    <!-- Additional elements like floating buttons, toasts, etc. -->
+    {% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

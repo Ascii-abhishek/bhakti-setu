@@ -133,7 +133,6 @@ contentForm.addEventListener('submit', async (e) => {
     
     const contentData = {
         content_type: document.getElementById('contentType').value,
-        language: document.getElementById('language').value,
         title: document.getElementById('title').value,
         title_en: document.getElementById('titleEn').value || null,
         header: document.getElementById('header').value || null,

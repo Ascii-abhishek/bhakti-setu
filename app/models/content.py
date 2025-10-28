@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Text, DateTime, Enum
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 import enum
+import uuid
 
 Base = declarative_base()
 
@@ -10,17 +11,12 @@ class ContentType(enum.Enum):
     MANTRA = "mantra"
     AARTI = "aarti"
 
-class Language(enum.Enum):
-    HINDI = "hindi"
-    ENGLISH = "english"
-
 class Content(Base):
     __tablename__ = "contents"
 
     id = Column(Integer, primary_key=True, index=True)
-    reference_id = Column(String(100), nullable=True, index=True)  # Links same content in different languages
+    reference_id = Column(String(100), nullable=False, index=True, default=lambda: str(uuid.uuid4()))  # Auto-generated UUID
     content_type = Column(Enum(ContentType), nullable=False, index=True)
-    language = Column(Enum(Language), nullable=False, index=True)
     title = Column(String(255), nullable=False, index=True)
     title_en = Column(String(255), nullable=True, index=True)  # English title (optional)
     header = Column(String(500), nullable=True)

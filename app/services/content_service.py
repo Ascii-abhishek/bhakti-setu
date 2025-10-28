@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from typing import List, Optional
-from app.models import Content, ContentType, Language
+from app.models import Content, ContentType
 from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -9,7 +9,6 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 def get_all_contents(
     db: Session,
     content_type: Optional[ContentType] = None,
-    language: Optional[Language] = None,
     skip: int = 0,
     limit: int = 100,
     shuffle: bool = False
@@ -19,9 +18,6 @@ def get_all_contents(
     
     if content_type:
         query = query.filter(Content.content_type == content_type)
-    
-    if language:
-        query = query.filter(Content.language == language)
     
     if shuffle:
         query = query.order_by(func.random())
@@ -37,8 +33,7 @@ def get_content_by_id(db: Session, content_id: int) -> Optional[Content]:
 def search_contents(
     db: Session,
     query: str,
-    content_type: Optional[ContentType] = None,
-    language: Optional[Language] = None
+    content_type: Optional[ContentType] = None
 ) -> List[Content]:
     """Search contents by title, summary, tags, or content with relevance scoring"""
     search_term = f"%{query}%"
@@ -56,9 +51,6 @@ def search_contents(
     
     if content_type:
         search_query = search_query.filter(Content.content_type == content_type)
-    
-    if language:
-        search_query = search_query.filter(Content.language == language)
     
     # Get all matching results
     results = search_query.all()
@@ -130,54 +122,3 @@ def get_random_content(db: Session, content_type: Optional[ContentType] = None) 
     if content_type:
         query = query.filter(Content.content_type == content_type)
     return query.order_by(func.random()).first()
-
-def get_content_in_language(db: Session, content_id: int, target_language: Language) -> Optional[Content]:
-    """Get content in a different language by reference_id"""
-    # First get the current content
-    current_content = db.query(Content).filter(Content.id == content_id).first()
-    if not current_content:
-        return None
-    
-    # If already in target language, return the same content
-    if current_content.language == target_language:
-        return current_content
-    
-    # If no reference_id, check if the content has bilingual fields
-    if not current_content.reference_id:
-        # Check if this content has the alternative language fields populated
-        if target_language == Language.ENGLISH:
-            if current_content.title_en and current_content.content_html_en:
-                return current_content  # Will be handled by frontend to use _en fields
-        return None
-    
-    # Find content with same reference_id but different language
-    alternative_content = db.query(Content).filter(
-        Content.reference_id == current_content.reference_id,
-        Content.language == target_language
-    ).first()
-    
-    return alternative_content
-
-def check_language_availability(db: Session, content_id: int, target_language: Language) -> bool:
-    """Check if content is available in target language"""
-    current_content = db.query(Content).filter(Content.id == content_id).first()
-    if not current_content:
-        return False
-    
-    # If already in target language
-    if current_content.language == target_language:
-        return True
-    
-    # Check if bilingual fields exist
-    if not current_content.reference_id:
-        if target_language == Language.ENGLISH:
-            return bool(current_content.title_en and current_content.content_html_en)
-        return False
-    
-    # Check if alternative language content exists
-    alternative_content = db.query(Content).filter(
-        Content.reference_id == current_content.reference_id,
-        Content.language == target_language
-    ).first()
-    
-    return alternative_content is not None

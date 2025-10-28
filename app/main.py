@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routes import story_routes
+from app.routes import public_routes, api_routes, admin_routes
 from app.database import init_db
 from app.config import settings
 
@@ -27,7 +27,9 @@ app.add_middleware(
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Include routes
-app.include_router(story_routes.router)
+app.include_router(public_routes.router)
+app.include_router(api_routes.router)
+app.include_router(admin_routes.router)
 
 @app.get("/health")
 def health_check():

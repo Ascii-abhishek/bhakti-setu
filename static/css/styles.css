@@ -5,8 +5,8 @@
     --text-color: #000000;
     --card-bg: #ffffff;
     --border-color: #e0e0e0;
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.3);
+    --glass-bg: rgba(255, 255, 255, 0.3);
+    --glass-border: rgba(255, 255, 255, 0.2);
 }
 
 [data-theme="dark"] {
@@ -16,8 +16,8 @@
     --text-color: #ffffff;
     --card-bg: #1e1e1e;
     --border-color: #2e2e2e;
-    --glass-bg: rgba(30, 30, 30, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-bg: rgba(30, 30, 30, 0.3);
+    --glass-border: rgba(255, 255, 255, 0.08);
 }
 
 * {
@@ -60,6 +60,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: visible;
 }
 
 .om-symbol {
@@ -69,18 +70,304 @@ body {
     position: relative;
     z-index: 2;
     text-shadow: 0 0 10px rgba(98, 0, 234, 0.3);
+    animation: omPulse 3s infinite ease-in-out;
+}
+
+/* Pulse effect for main OM */
+@keyframes omPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.08);
+    }
 }
 
 .om-ring {
     position: absolute;
     border: 2px solid var(--primary-color);
-    border-radius: 90%;
+    border-radius: 50%;
     opacity: 0;
     animation: ripple 3s infinite ease-out;
 }
 
 .ring-1 {
     animation-delay: 0s;
+}
+
+/* OM Particle Animation - Pulse Signal Effect */
+.om-particles {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 0;
+}
+
+.om-particle {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 1rem;
+    color: var(--primary-color);
+    opacity: 0;
+    text-shadow: 0 0 8px rgba(98, 0, 234, 0.5);
+    font-weight: 700;
+    animation-duration: 3.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+}
+
+/* Individual particle animations based on data-angle attribute */
+.om-particle[data-angle="0"] {
+    animation-name: omPulse0;
+    animation-delay: 0s;
+}
+
+.om-particle[data-angle="18"] {
+    animation-name: omPulse18;
+    animation-delay: 0.4s;
+}
+
+.om-particle[data-angle="36"] {
+    animation-name: omPulse36;
+    animation-delay: 1.2s;
+}
+
+.om-particle[data-angle="54"] {
+    animation-name: omPulse54;
+    animation-delay: 2.1s;
+}
+
+.om-particle[data-angle="72"] {
+    animation-name: omPulse72;
+    animation-delay: 0.7s;
+}
+
+.om-particle[data-angle="90"] {
+    animation-name: omPulse90;
+    animation-delay: 1.8s;
+}
+
+.om-particle[data-angle="108"] {
+    animation-name: omPulse108;
+    animation-delay: 0.3s;
+}
+
+.om-particle[data-angle="126"] {
+    animation-name: omPulse126;
+    animation-delay: 1.5s;
+}
+
+.om-particle[data-angle="144"] {
+    animation-name: omPulse144;
+    animation-delay: 2.4s;
+}
+
+.om-particle[data-angle="162"] {
+    animation-name: omPulse162;
+    animation-delay: 0.9s;
+}
+
+.om-particle[data-angle="180"] {
+    animation-name: omPulse180;
+    animation-delay: 1.1s;
+}
+
+.om-particle[data-angle="198"] {
+    animation-name: omPulse198;
+    animation-delay: 2.7s;
+}
+
+.om-particle[data-angle="216"] {
+    animation-name: omPulse216;
+    animation-delay: 0.5s;
+}
+
+.om-particle[data-angle="234"] {
+    animation-name: omPulse234;
+    animation-delay: 1.9s;
+}
+
+.om-particle[data-angle="252"] {
+    animation-name: omPulse252;
+    animation-delay: 0.2s;
+}
+
+.om-particle[data-angle="270"] {
+    animation-name: omPulse270;
+    animation-delay: 1.4s;
+}
+
+.om-particle[data-angle="288"] {
+    animation-name: omPulse288;
+    animation-delay: 2.3s;
+}
+
+.om-particle[data-angle="306"] {
+    animation-name: omPulse306;
+    animation-delay: 0.8s;
+}
+
+.om-particle[data-angle="324"] {
+    animation-name: omPulse324;
+    animation-delay: 1.6s;
+}
+
+.om-particle[data-angle="342"] {
+    animation-name: omPulse342;
+    animation-delay: 2.9s;
+}
+
+/* Pulse animations - growing size as they fade out, constrained to navbar */
+/* Right direction (0° - main direction toward controls) */
+@keyframes omPulse0 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.7; }
+    100% { transform: translate(calc(100vw - 250px), 0) scale(2) rotate(360deg); opacity: 0; }
+}
+
+/* Upper-right quadrant - staying in navbar bounds */
+@keyframes omPulse18 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.65; }
+    100% { transform: translate(calc(100vw - 280px), -15px) scale(1.8) rotate(360deg); opacity: 0; }
+}
+
+@keyframes omPulse36 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.6; }
+    100% { transform: translate(calc(100vw - 320px), -25px) scale(1.6) rotate(360deg); opacity: 0; }
+}
+
+@keyframes omPulse54 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.55; }
+    100% { transform: translate(250px, -30px) scale(1.4) rotate(360deg); opacity: 0; }
+}
+
+@keyframes omPulse72 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.5; }
+    100% { transform: translate(200px, -30px) scale(1.2) rotate(360deg); opacity: 0; }
+}
+
+/* Straight up - minimal travel */
+@keyframes omPulse90 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.45; }
+    100% { transform: translate(0, -35px) scale(1) rotate(360deg); opacity: 0; }
+}
+
+/* Upper-left quadrant */
+@keyframes omPulse108 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.5; }
+    100% { transform: translate(-200px, -30px) scale(1.2) rotate(360deg); opacity: 0; }
+}
+
+@keyframes omPulse126 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.55; }
+    100% { transform: translate(-250px, -25px) scale(1.4) rotate(360deg); opacity: 0; }
+}
+
+@keyframes omPulse144 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.6; }
+    100% { transform: translate(-300px, -15px) scale(1.6) rotate(360deg); opacity: 0; }
+}
+
+@keyframes omPulse162 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.65; }
+    100% { transform: translate(-350px, -5px) scale(1.8) rotate(360deg); opacity: 0; }
+}
+
+/* Left direction */
+@keyframes omPulse180 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.7; }
+    100% { transform: translate(-400px, 0) scale(2) rotate(360deg); opacity: 0; }
+}
+
+/* Lower-left quadrant - staying in navbar */
+@keyframes omPulse198 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.65; }
+    100% { transform: translate(-350px, 5px) scale(1.8) rotate(360deg); opacity: 0; }
+}
+
+@keyframes omPulse216 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.6; }
+    100% { transform: translate(-300px, 15px) scale(1.6) rotate(360deg); opacity: 0; }
+}
+
+@keyframes omPulse234 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.55; }
+    100% { transform: translate(-250px, 25px) scale(1.4) rotate(360deg); opacity: 0; }
+}
+
+@keyframes omPulse252 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.5; }
+    100% { transform: translate(-200px, 30px) scale(1.2) rotate(360deg); opacity: 0; }
+}
+
+/* Straight down - minimal travel */
+@keyframes omPulse270 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.45; }
+    100% { transform: translate(0, 35px) scale(1) rotate(360deg); opacity: 0; }
+}
+
+/* Lower-right quadrant - staying in navbar */
+@keyframes omPulse288 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.5; }
+    100% { transform: translate(200px, 30px) scale(1.2) rotate(360deg); opacity: 0; }
+}
+
+@keyframes omPulse306 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.55; }
+    100% { transform: translate(250px, 25px) scale(1.4) rotate(360deg); opacity: 0; }
+}
+
+@keyframes omPulse324 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.6; }
+    100% { transform: translate(calc(100vw - 320px), 15px) scale(1.6) rotate(360deg); opacity: 0; }
+}
+
+@keyframes omPulse342 {
+    0% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.65; }
+    100% { transform: translate(calc(100vw - 280px), 5px) scale(1.8) rotate(360deg); opacity: 0; }
+}
+
+/* Ripple effect updated */
+@keyframes ripple {
+    0% {
+        width: 30px;
+        height: 30px;
+        opacity: 0.6;
+    }
+    50% {
+        width: 50px;
+        height: 50px;
+        opacity: 0.3;
+    }
+    100% {
+        width: 70px;
+        height: 70px;
+        opacity: 0;
+    }
 }
 
 /* .ring-2 {
