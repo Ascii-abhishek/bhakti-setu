@@ -4,7 +4,7 @@
 # This script uses Doppler to inject environment variables and starts the application
 
 # Set Doppler token for production environment
-export DOPPLER_TOKEN="dp.st.prod.nC0vwITBaWx6duSWGU1Nbnw8chJeIAUNvcdxQeuLy8y"
+# export DOPPLER_TOKEN="dp.st.prod.nC0vwITBaWx6duSWGU1Nbnw8chJeIAUNvcdxQeuLy8y"
 
 # Activate virtual environment
 source .venv/bin/activate
